@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using QuarterlySuperStars.Data;
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,12 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddBlazorise(options =>
+{
+  options.Immediate = true;
+})
+  .AddBootstrapProviders()
+  .AddFontAwesomeIcons();
 
 var app = builder.Build();
 
