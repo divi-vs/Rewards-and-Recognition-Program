@@ -7,13 +7,20 @@
 
 <Row>
   <Column ColumnSize="ColumnSize.Is6">
-    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
       <AuthorizeView>
         <Authorized>
           <Card Background="Background.Transparent" WhiteText Width="Width.Is75" Border="Border.Is0">
              <CardBody>
                <CardTitle Size="3">
-                 hello superstar, @user.Identity.Name.Split('@')[0].ToLower()
+                 <Div Margin="Margin.Is4.FromBottom">
+                   hello superstar,
+                 </Div>
+                 <Div Position="Position.Relative">
+                   
+                  <Icon Name="IconName.Star" Style="color:gold" Position="Position.Absolute.Top.Is0.End.Is0.Translate.Middle"></Icon>
+                   @userName
+                 </Div>
               </CardTitle>
               <Button Color="Color.Primary" Type="ButtonType.Link" Margin="Margin.Is2.FromTop" To="MicrosoftIdentity/Account/SignOut">
                 Logout <Icon Name="IconName.ArrowRight" />
@@ -26,10 +33,10 @@
     </div>
   </Column>
   <Column ColumnSize="ColumnSize.Is6">
-    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
       <Card Background="Background.Light"  Width="Width.Is75">
         <CardBody class="d-flex flex-column justify-content-center align-items-center">
-          <Button Background="Background.Transparent" Block Border="Border.Rounded.Is1.Secondary" Type="ButtonType.Link" To="#" Width="Width.Is75" Margin="Margin.Is2">Nomination Form</Button>
+          <Button Background="Background.Transparent" Block Border="Border.Rounded.Is1.Secondary" Type="ButtonType.Link" To="/goodStoryNomination" Width="Width.Is75" Margin="Margin.Is2">Good Story Nomination</Button>
           <Button Background="Background.Transparent" Block Border="Border.Rounded.Is1.Secondary" Width="Width.Is75" Margin="Margin.Is2">Page 2</Button>    
     </CardBody>
 </Card>
@@ -37,14 +44,18 @@
     </div>
   </Column>
 </Row>
-
-
-@code {
+ 
+ @code {
   private ClaimsPrincipal user;
+  string userName;
 
   protected override async Task OnInitializedAsync()
   {
     var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
     user = authState.User;
+    if (user.Identity.IsAuthenticated)
+    {
+      userName = user.FindFirst(c => c.Type.Equals("name"))?.Value;
+    }
   }
 }

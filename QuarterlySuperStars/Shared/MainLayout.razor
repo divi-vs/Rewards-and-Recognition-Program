@@ -1,20 +1,37 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 <PageTitle>QuarterlySuperStars</PageTitle>
 
-@* <div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<Layout>
+  <LayoutHeader>
+    <div style="display:flex; justify-content:flex-end;">
+      <Image Source="/images/Vestas Primary Logo RGB.png" Margin="Margin.Is3" Style="width:250px"></Image>
     </div>
+  </LayoutHeader>
+  <LayoutContent>
+    @Body
+  </LayoutContent>
+  <LayoutFooter>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <Button Background="Background.Body" Margin="Margin.Is3" Visibility="@visibility" Clicked="BackButtonClicked"><Icon Name="IconName.ArrowLeft"></Icon></Button>
+      <div style="display:flex; justify-content:flex-end;">
+        <Image Source="/images/Vestas_Secondary_Tagline_RGB.png" Style="width:350px" Margin="Margin.Is4"></Image>
+      </div>
+    </div>
+  </LayoutFooter>
+</Layout>
+@code
+{
+  private Visibility visibility { get; set; }
+ 
+  protected override void OnParametersSet()
+  {
+    visibility = NavigationManager.Uri == "https://localhost:7160/" ? Visibility.Invisible : Visibility.Visible;
+    base.OnParametersSet();
+  }
 
-    <main>
-        <div class="top-row px-4 auth">
-            <LoginDisplay />
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div> *@
-@Body
+  private void BackButtonClicked()
+  {
+    NavigationManager.NavigateTo("/");
+  }
+}
